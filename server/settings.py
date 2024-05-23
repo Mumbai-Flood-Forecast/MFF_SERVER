@@ -23,6 +23,8 @@ INSTALLED_APPS = [
     
     'crowdsource',
     'widget',
+    'base',
+    'stations'
 ]
 
 MIDDLEWARE = [
