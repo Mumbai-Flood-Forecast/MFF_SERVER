@@ -17,3 +17,5 @@ def process_text(location_text):
     processed_text = re.sub(r'\s+', ' ', processed_text).strip()
     print('processed_text:', processed_text)
     return processed_text
+
+                                                                                                                         

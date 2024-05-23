@@ -7,4 +7,4 @@ urlpatterns = [
     path('station/<int:id>/', views.StationDetail.as_view()),
     path('rainfall/<int:id>/', views.RainfallList.as_view()),
     path('alldata/<int:id>', views.AllData.as_view())
-]
+]   
