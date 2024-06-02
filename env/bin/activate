@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/subimal/Desktop/MFF_SERVER/env"
+VIRTUAL_ENV="/home/deepak/Desktop/MFF/server/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

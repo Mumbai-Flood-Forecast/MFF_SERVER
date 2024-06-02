@@ -1,11 +1,14 @@
 
 from pathlib import Path
+from .celery import CELERY_BEAT_SCHEDULE
+from datetime import timedelta
 import os
+from celery.schedules import crontab
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  
 
-SECRET_KEY = 'django-insecure-+_0#ws@6twrj0%468g1f*6!+=*co9w-w#sasnmo4u-w(b5!a!_'
+SECRET_KEY = 'django-insecure-%b#i7-j1&gkl5p&&ggj=rcn4w+#_y69t+4er7eesx92*$^j@0e'
 
 DEBUG = True
 
@@ -18,13 +21,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
-    'rest_framework',
     
+    'weatherstations',
+    'awsstations',
     'crowdsource',
-    'widget',
-    'base',
-    'stations'
+    'blogs',
+    
+    'rest_framework',
+    'django_celery_beat',
+
 ]
 
 MIDDLEWARE = [
@@ -35,12 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-CORS_ALLOW_HEADERS = ['Authorization', 'Content-Type', 'Custom-Header']
 
 ROOT_URLCONF = 'server.urls'
 
@@ -60,13 +60,21 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hdfcergo',
+        'USER': 'climate',
+        'PASSWORD': 'HDFCERGOweb2023',
+        'HOST': 'localhost',     
+        'PORT': '5432',
     }
+
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -84,15 +92,31 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
+
 
 USE_I18N = True
 
 USE_TZ = True
 
+
+STATIC_URL = 'static/'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+################################################################################ !!!!!!!!!!!!!!!!!!! Celery
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CELERY_BEAT_SCHEDULE = {
+    'every-15-minutes': {
+        'task': 'awsstations.tasks.scheduled_15_min',
+        'schedule': crontab(minute='0,15,30,45'),
+    },
+    'everyday-3:35': {
+        'task': 'awsstations.tasks.scheduled_daily',
+        'schedule': crontab(hour=16, minute=14),
+    }
+}

@@ -1,4 +1,4 @@
-#!/home/subimal/Desktop/MFF_SERVER/env/bin/python
+#!/home/deepak/Desktop/MFF/server/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

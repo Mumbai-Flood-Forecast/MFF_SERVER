@@ -1,7 +1,9 @@
 from django.db import models
 
-class CrowdSourceData(models.Model):
-    name = models.CharField(max_length=100, blank=True, null=True)
+
+# form data model
+class CSFormData(models.Model):
+    phoneno = models.IntegerField()
     waterlevel = models.FloatField()
     location = models.CharField(max_length=100 , blank=True, null=True)
     latitude = models.FloatField()
@@ -9,3 +11,15 @@ class CrowdSourceData(models.Model):
 
     def __str__(self):
         return self.name
+
+# tweet data model
+
+class Tweet(models.Model):
+    tweet_text = models.CharField(max_length=200)
+    timestamp = models.DateTimeField()
+    sentiment = models.BooleanField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    address = models.CharField()
+    
+    
