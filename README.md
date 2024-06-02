@@ -1,4 +1,4 @@
-# Django Flood/Rainfall Prediction System
+# Django || Mumbai Flood App
 
 ## Introduction
 
